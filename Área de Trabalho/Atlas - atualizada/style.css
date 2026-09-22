@@ -1,0 +1,635 @@
+/* ===================================================
+   VARIÁVEIS DE COR E FONTE
+   Aqui ficam guardadas as cores e fontes do site.
+   Se quiser trocar uma cor em tudo, só muda aqui uma vez.
+   =================================================== */
+:root {
+  --black: #0a0a0a;        /* cor de fundo principal (preto) */
+  --black-soft: #121212;   /* preto um pouco mais claro */
+  --surface: #1a1a1a;      /* fundo de cartões/blocos */
+  --surface-2: #232323;    /* fundo um pouco mais claro ainda */
+  --white: #fafaf8;        /* cor do texto principal (quase branco) */
+  --chrome: #c7c7c7;       /* cinza claro, usado em parágrafos */
+  --grey: #8a8a8a;         /* cinza médio */
+  --grey-dim: #555555;     /* cinza escuro, textos discretos */
+  --line: rgba(255,255,255,0.08); /* linhas/bordas bem sutis */
+
+  --display: 'Alata', 'Helvetica Neue', sans-serif; /* fonte dos títulos */
+  --body: 'Inter', 'Arial', sans-serif;              /* fonte dos textos */
+
+  --ease: cubic-bezier(.16,1,.3,1); /* curva de suavização usada nas animações */
+}
+
+/* ============ TEMA CLARO ============
+   Essas cores substituem as de cima quando o site
+   estiver no modo "claro" (data-theme="light" no HTML) */
+:root[data-theme="light"] {
+  --black: #fafaf8;
+  --black-soft: #f0f0f0;
+  --surface: #e8e8e8;
+  --surface-2: #d8d8d8;
+  --white: #0a0a0a;
+  --chrome: #333333;
+  --grey: #666666;
+  --grey-dim: #888888;
+  --line: rgba(0, 0, 0, 0.1);
+}
+
+/* Ajuste para o menu ficar legível no fundo branco */
+:root[data-theme="light"] header {
+  mix-blend-mode: normal;
+}
+
+/* Reset básico: zera espaçamentos padrão do navegador */
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; } /* rolagem suave ao clicar em links âncora */
+
+body {
+  background:var(--black);
+  color:var(--white);
+  font-family:var(--body);
+  font-weight:300;
+  overflow-x:hidden; /* impede rolagem horizontal indesejada */
+  cursor:default;
+  transition:background-color 0.5s var(--ease), color 0.5s var(--ease); /* troca suave ao mudar de tema */
+}
+
+/* Se a pessoa preferir menos animação (configuração de acessibilidade
+   do sistema dela), o site reduz quase tudo para o mínimo */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration:0.01ms !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+a { color:inherit; text-decoration:none; } /* links sem sublinhado, cor herdada */
+::selection { background:var(--white); color:var(--black); } /* cor ao selecionar texto */
+
+/* ============ TELA DE CARREGAMENTO (LOADER) ============ */
+#loader {
+  position:fixed; inset:0; z-index:9999; /* cobre a tela toda, por cima de tudo */
+  background:var(--black);
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity 0.9s var(--ease), visibility 0.9s var(--ease);
+}
+/* Classe adicionada pelo JavaScript quando o carregamento termina */
+#loader.done { opacity:0; visibility:hidden; pointer-events:none; }
+
+.loader-mark {
+  font-family:var(--display);
+  font-size:clamp(2.2rem, 6vw, 3.6rem); /* tamanho que se adapta à tela */
+  letter-spacing:0.04em;
+  color:var(--white);
+  opacity:0;
+  transform:scale(0.92);
+  animation:markIn 1.4s var(--ease) forwards 0.15s; /* efeito de entrada */
+  position:relative;
+}
+.loader-mark::after {
+  content:'';
+  position:absolute; left:0; bottom:-14px;
+  width:0%; height:1px;
+  background:var(--grey);
+  animation:lineGrow 1.1s var(--ease) forwards 0.55s; /* linha que cresce embaixo do texto */
+}
+@keyframes markIn {
+  to { opacity:1; transform:scale(1); }
+}
+@keyframes lineGrow {
+  to { width:100%; }
+}
+
+/* ============ CABEÇALHO (MENU FIXO NO TOPO) ============ */
+header {
+  position:fixed; top:0; left:0; right:0; z-index:500; /* sempre visível ao rolar */
+  display:flex; align-items:center; justify-content:space-between;
+  padding:28px clamp(24px, 5vw, 64px);
+  mix-blend-mode:difference; /* faz o texto do menu inverter cor conforme o fundo */
+}
+.logo {
+  font-family:var(--display);
+  font-size:1.25rem;
+  letter-spacing:0.03em;
+  color:var(--white);
+}
+nav ul {
+  display:flex; gap:clamp(20px, 3vw, 40px);
+  list-style:none;
+}
+nav a {
+  font-size:0.78rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--white);
+  position:relative;
+  padding-bottom:4px;
+}
+/* Linha que aparece embaixo do link do menu ao passar o mouse */
+nav a::after {
+  content:''; position:absolute; left:0; bottom:0;
+  width:0; height:1px; background:var(--white);
+  transition:width 0.4s var(--ease);
+}
+nav a:hover::after { width:100%; }
+.nav-links { display:flex; }
+
+/* Botão "Menu" — só some/aparece no celular (ver media query lá embaixo) */
+.menu-toggle { display:none; background:none; border:none; color:var(--white); font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer; }
+
+/* ============ BOTÃO DE TEMA (CLARO/ESCURO) ============ */
+#theme-toggle {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--white);
+  margin-left:24px;
+  cursor:pointer;
+  transition:border-color 0.4s var(--ease), background 0.4s var(--ease), transform 0.4s var(--ease);
+}
+#theme-toggle:hover {
+  border-color:var(--white);
+  background:var(--surface);
+}
+#theme-toggle:active {
+  transform:scale(0.9);
+}
+#theme-toggle svg {
+  width:16px;
+  height:16px;
+  stroke:currentColor;
+  fill:none;
+}
+/* Sol e lua ficam empilhados; só um aparece por vez, com um crossfade */
+#theme-toggle .icon-sun,
+#theme-toggle .icon-moon {
+  position:absolute;
+  transition:opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+#theme-toggle .icon-moon { opacity:0; transform:rotate(-90deg) scale(0.6); }
+#theme-toggle .icon-sun { opacity:1; transform:rotate(0) scale(1); }
+:root[data-theme="light"] #theme-toggle .icon-sun { opacity:0; transform:rotate(90deg) scale(0.6); }
+:root[data-theme="light"] #theme-toggle .icon-moon { opacity:1; transform:rotate(0) scale(1); }
+
+/* ============ SEÇÃO HERO (topo da página) ============ */
+.hero {
+  position:relative;
+  min-height:100vh; /* ocupa a tela inteira na primeira visualização */
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:0 clamp(24px, 5vw, 64px);
+  overflow:hidden;
+}
+
+/* Bolha de luz decorativa atrás do texto, se move com o mouse (ver script.js) */
+.hero-glow {
+  position:absolute;
+  width:60vw; height:60vw;
+  max-width:900px; max-height:900px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 65%);
+  top:-10%; right:-15%;
+  pointer-events:none;
+  animation:glowPulse 8s ease-in-out infinite; /* fica pulsando sozinha */
+}
+@keyframes glowPulse {
+  0%,100% { opacity:0.7; transform:scale(1); }
+  50% { opacity:1; transform:scale(1.08); }
+}
+
+/* Textinho pequeno acima do título grande */
+.hero-eyebrow {
+  font-size:0.78rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--grey);
+  margin-bottom:28px;
+  opacity:0;
+  animation:fadeUp 1s var(--ease) forwards 1.3s; /* aparece de baixo pra cima */
+}
+
+.hero-title {
+  font-family:var(--display);
+  font-size:clamp(3.2rem, 11vw, 8.5rem);
+  line-height:0.92;
+  letter-spacing:-0.01em;
+  color:var(--white);
+  opacity:0;
+  animation:fadeUp 1.1s var(--ease) forwards 1.45s;
+}
+
+.hero-sub {
+  margin-top:32px;
+  max-width:480px;
+  font-size:clamp(1rem, 1.3vw, 1.15rem);
+  line-height:1.6;
+  color:var(--grey);
+  font-weight:300;
+  opacity:0;
+  animation:fadeUp 1s var(--ease) forwards 1.7s;
+}
+
+.hero-cta {
+  margin-top:48px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  opacity:0;
+  animation:fadeUp 1s var(--ease) forwards 1.9s;
+}
+/* Botão sólido (branco) */
+.btn {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:16px 32px;
+  border:1px solid var(--white);
+  border-radius:100px;
+  font-size:0.82rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--black);
+  background:var(--white);
+  transition:all 0.4s var(--ease);
+}
+.btn:hover {
+  background:transparent;
+  color:var(--white);
+}
+/* Botão "fantasma" (contorno, sem preenchimento) */
+.btn-ghost {
+  background:transparent;
+  color:var(--white);
+  border:1px solid var(--line);
+}
+.btn-ghost:hover {
+  border-color:var(--white);
+  background:var(--white);
+  color:var(--black);
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* Aviso "Role para explorar" no rodapé da tela inicial */
+.scroll-cue {
+  position:absolute;
+  bottom:40px; left:clamp(24px, 5vw, 64px);
+  display:flex; align-items:center; gap:12px;
+  font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--grey-dim);
+  opacity:0;
+  animation:fadeUp 1s var(--ease) forwards 2.2s;
+}
+.scroll-cue .line {
+  width:1px; height:40px;
+  background:var(--grey-dim);
+  position:relative;
+  overflow:hidden;
+}
+/* A bolinha de luz que desce dentro da linha, em loop */
+.scroll-cue .line::after {
+  content:'';
+  position:absolute; top:0; left:0; right:0;
+  height:40%; background:var(--white);
+  animation:scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0% { transform:translateY(-100%); }
+  100% { transform:translateY(250%); }
+}
+
+/* ===================================================
+   ESTILO GERAL DE CADA SEÇÃO (Sobre, Manifesto, etc.)
+   =================================================== */
+section {
+  position:relative;
+  padding:160px clamp(24px, 5vw, 64px);
+  border-top:1px solid var(--line); /* linha fina separando as seções */
+}
+.section-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:80px;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.section-index {
+  font-size:0.78rem;
+  letter-spacing:0.15em;
+  color:var(--grey-dim);
+  text-transform:uppercase;
+}
+.section-title {
+  font-family:var(--display);
+  font-size:clamp(2.4rem, 5.5vw, 4.2rem);
+  letter-spacing:-0.01em;
+  line-height:1;
+}
+.section-title .accent { color:var(--grey); }
+
+/* Elementos com essa classe começam invisíveis e "aparecem"
+   quando a pessoa rola a página até eles (controlado pelo script.js) */
+.reveal {
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.in {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ============ SEÇÃO "SOBRE" ============ */
+.about-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr; /* texto de um lado, imagem do outro */
+  gap:80px;
+  align-items:start;
+}
+.about-text p {
+  font-size:clamp(1.05rem, 1.6vw, 1.4rem);
+  line-height:1.7;
+  color:var(--chrome);
+  font-weight:300;
+  margin-bottom:28px;
+}
+.about-text strong { color:var(--white); font-weight:500; }
+
+.metal-frame {
+  position:relative;
+  aspect-ratio:4/5;
+  border-radius:4px;
+  overflow:hidden;
+  background:var(--surface);
+  display:flex; align-items:center; justify-content:center;
+}
+.metal-frame svg { width:85%; height:85%; }
+
+/* Bloco com os números (5 especialistas, 3 sistemas, etc.) */
+.about-stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:32px;
+  margin-top:64px;
+  padding-top:48px;
+  border-top:1px solid var(--line);
+}
+.stat-num {
+  font-family:var(--display);
+  font-size:clamp(2rem, 4vw, 3rem);
+  color:var(--white);
+}
+.stat-label {
+  font-size:0.78rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--grey);
+  margin-top:8px;
+}
+
+/* ============ SEÇÃO "POR QUE ATLAS" ============ */
+.why-content {
+  max-width:900px;
+}
+.why-content p {
+  font-size:clamp(1.3rem, 2.6vw, 2rem);
+  line-height:1.5;
+  color:var(--chrome);
+  font-weight:300;
+}
+.why-content strong { color:var(--white); font-weight:400; }
+
+/* Os 3 cartões (Força, Responsabilidade, Suporte) lado a lado */
+.why-pillars {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line); /* cria linhas finas entre os cartões */
+  margin-top:96px;
+  border:1px solid var(--line);
+}
+.pillar {
+  background:var(--black);
+  padding:48px 36px;
+  transition:background 0.5s var(--ease);
+}
+.pillar:hover { background:var(--surface); }
+.pillar-title {
+  font-family:var(--display);
+  font-size:1.4rem;
+  margin-bottom:16px;
+}
+.pillar-text {
+  font-size:0.92rem;
+  line-height:1.6;
+  color:var(--grey);
+}
+
+/* ============ SEÇÃO "EQUIPE" ============ */
+
+.team-grid {
+  display:grid;
+  grid-template-columns:repeat(5,1fr); /* 5 cartões lado a lado */
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.member {
+  background:var(--black);
+  padding:40px 24px;
+  text-align:center;
+  transition:background 0.5s var(--ease);
+}
+.member:hover { background:var(--surface); }
+
+.member-photo {
+  width:88px; height:88px;
+  border-radius:50%; /* bolinha redonda com as iniciais */
+  margin:0 auto 24px;
+  background:var(--surface-2);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--display);
+  font-size:1.6rem;
+  color:var(--grey);
+  border:1px solid var(--line);
+  overflow: hidden; /* IMPORTANTE: Corta a imagem em formato de círculo */
+}
+
+/* Nova regra para controlar as fotos */
+.member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Faz a foto preencher o círculo sem distorcer */
+  object-position: center; /* Mantém o rosto centralizado */
+}
+
+.member-name {
+  font-size:1rem;
+  font-weight:500;
+  color:var(--white);
+  margin-bottom:6px;
+}
+.member-role {
+  font-size:0.78rem;
+  letter-spacing:0.05em;
+  color:var(--grey);
+}
+
+
+/* ============ SEÇÃO "PROJETOS" ============ */
+.project-list {
+  display:flex;
+  flex-direction:column;
+}
+.project-row {
+  display:grid;
+  grid-template-columns:80px 1.4fr 1fr; /* número | nome | descrição */
+  gap:40px;
+  align-items:start;
+  padding:44px 0;
+  border-top:1px solid var(--line);
+  transition:padding-left 0.5s var(--ease);
+}
+.project-row:hover { padding-left:16px; } /* desliza um pouco ao passar o mouse */
+.project-row:last-child { border-bottom:1px solid var(--line); }
+.project-num {
+  font-family:var(--display);
+  font-size:0.95rem;
+  color:var(--grey-dim);
+  padding-top:6px;
+}
+.project-name {
+  font-family:var(--display);
+  font-size:clamp(1.4rem, 2.6vw, 2rem);
+  line-height:1.2;
+}
+.project-desc {
+  font-size:0.95rem;
+  line-height:1.65;
+  color:var(--grey);
+}
+.project-desc .label {
+  display:block;
+  font-size:0.72rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--grey-dim);
+  margin-bottom:6px;
+  margin-top:14px;
+}
+.project-desc .label:first-child { margin-top:0; }
+
+/* ============ SEÇÃO "CONTATO" ============ */
+.contact-wrap {
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr; /* texto de um lado, formulário do outro */
+  gap:80px;
+}
+.contact-title {
+  font-family:var(--display);
+  font-size:clamp(2.6rem, 6vw, 4.8rem);
+  line-height:1.05;
+  letter-spacing:-0.01em;
+}
+.contact-title .accent { color:var(--grey); }
+.contact-lead {
+  margin-top:28px;
+  font-size:1.05rem;
+  line-height:1.6;
+  color:var(--grey);
+  max-width:440px;
+}
+
+/* Campos do formulário (nome, e-mail, mensagem) */
+.form-field {
+  margin-bottom:32px;
+}
+.form-field label {
+  display:block;
+  font-size:0.72rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--grey);
+  margin-bottom:12px;
+}
+.form-field input,
+.form-field textarea {
+  width:100%;
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--line); /* só uma linha embaixo, sem caixa */
+  color:var(--white);
+  font-family:var(--body);
+  font-size:1.05rem;
+  font-weight:300;
+  padding:10px 0;
+  transition:border-color 0.4s var(--ease);
+  resize:none;
+}
+.form-field input:focus,
+.form-field textarea:focus {
+  outline:none;
+  border-color:var(--white); /* linha fica branca quando a pessoa clica pra digitar */
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder { color:var(--grey-dim); }
+
+.contact-info {
+  margin-top:56px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.contact-info a {
+  font-size:0.95rem;
+  color:var(--grey);
+  transition:color 0.3s var(--ease);
+}
+.contact-info a:hover { color:var(--white); }
+
+/* ============ RODAPÉ ============ */
+footer {
+  padding:48px clamp(24px, 5vw, 64px);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-top:1px solid var(--line);
+  font-size:0.78rem;
+  letter-spacing:0.05em;
+  color:var(--grey-dim);
+  flex-wrap:wrap;
+  gap:16px;
+}
+.footer-logo {
+  font-family:var(--display);
+  color:var(--grey);
+  letter-spacing:0.03em;
+}
+
+/* ===================================================
+   RESPONSIVO — ajustes para telas menores (tablet/celular)
+   =================================================== */
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns:1fr; gap:48px; }       /* empilha texto e imagem */
+  .about-stats { grid-template-columns:repeat(3,1fr); gap:16px; }
+  .why-pillars { grid-template-columns:1fr; }                /* empilha os 3 cartões */
+  .team-grid { grid-template-columns:repeat(2,1fr); }        /* 2 colunas na equipe */
+  .project-row { grid-template-columns:1fr; gap:14px; }      /* empilha cada projeto */
+  .project-num { padding-top:0; }
+  .contact-wrap { grid-template-columns:1fr; gap:56px; }     /* empilha contato e formulário */
+  section { padding:110px 24px; }
+}
+@media (max-width: 600px) {
+  .nav-links { display:none; }      /* esconde o menu normal */
+  .menu-toggle { display:block; }   /* mostra o botão "Menu" */
+  #theme-toggle { margin-left:16px; width:34px; height:34px; }
+  .team-grid { grid-template-columns:1fr 1fr; }
+  .hero-cta { flex-direction:column; align-items:flex-start; } /* botões empilhados */
+}

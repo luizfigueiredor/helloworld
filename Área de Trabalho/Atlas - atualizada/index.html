@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Atlas</title>
+
+  <!-- Ícone que aparece na aba do navegador -->
+  <link rel="icon" href="atlas.png" type="image/x-icon">
+
+  <!-- Aqui o site "avisa" o Google Fonts que vai usar fontes de lá,
+       isso deixa o carregamento mais rápido -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Importa as fontes usadas no site: Alata (títulos) e Inter (textos) -->
+  <link href="https://fonts.googleapis.com/css2?family=Alata&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Arquivo com todo o visual (cores, tamanhos, espaçamentos, animações) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- ===================================================
+       TELA DE CARREGAMENTO (aparece por 1,9s ao abrir o site)
+       =================================================== -->
+  <div id="loader">
+    <div class="loader-mark">Atlas</div>
+  </div>
+
+  <!-- ===================================================
+       CABEÇALHO FIXO NO TOPO (logo + menu de navegação)
+       =================================================== -->
+  <header>
+    <a href="#hero" class="logo">Atlas</a>
+
+    <!-- Links que levam para cada seção da página (âncoras #) -->
+    <nav class="nav-links" aria-label="Navegação principal">
+      <ul>
+        <li><a href="#hero">Início</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#porque">Missão</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#equipe">Equipe</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+
+    <!-- Botão para alternar entre tema escuro e tema claro -->
+    <button id="theme-toggle" type="button" aria-label="Alternar tema claro/escuro">
+      <svg class="icon-sun" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <line x1="12" y1="2" x2="12" y2="4"></line>
+        <line x1="12" y1="20" x2="12" y2="22"></line>
+        <line x1="4.2" y1="4.2" x2="5.6" y2="5.6"></line>
+        <line x1="18.4" y1="18.4" x2="19.8" y2="19.8"></line>
+        <line x1="2" y1="12" x2="4" y2="12"></line>
+        <line x1="20" y1="12" x2="22" y2="12"></line>
+        <line x1="4.2" y1="19.8" x2="5.6" y2="18.4"></line>
+        <line x1="18.4" y1="5.6" x2="19.8" y2="4.2"></line>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.6A9 9 0 1 1 11.4 3a7 7 0 0 0 9.6 9.6z"></path>
+      </svg>
+    </button>
+
+    <!-- Botão "Menu" que só aparece no celular (tela pequena) -->
+    <button class="menu-toggle" type="button" aria-label="Abrir menu">
+      Menu
+    </button>
+  </header>
+
+  <main>
+    <!-- ===================================================
+         SEÇÃO 1: HERO (a primeira coisa que a pessoa vê)
+         =================================================== -->
+    <section class="hero" id="hero">
+      <!-- Bolha de luz decorativa que se move com o mouse -->
+      <div class="hero-glow"></div>
+
+      <p class="hero-eyebrow">Atlas Ltda — Soluções Tecnológicas</p>
+
+      <h1 class="hero-title">
+        Estrutura<br>
+        invisível.
+      </h1>
+
+      <p class="hero-sub">
+        Sistemas personalizados que sustentam a operação das empresas, do mesmo jeito que o titã sustentava o mundo: com
+        força silenciosa.
+      </p>
+
+      <!-- Botões de ação: leva até "Falar com a equipe" ou "Sobre" -->
+      <div class="hero-cta">
+        <a href="#contato" class="btn">Falar com a equipe</a>
+        <a href="#sobre" class="btn btn-ghost">Conhecer a Atlas</a>
+      </div>
+
+      <div class="scroll-cue">
+        <div class="line"></div>
+        Role para explorar
+      </div>
+    </section>
+
+    <!-- ===================================================
+         SEÇÃO 2: SOBRE A ATLAS
+         =================================================== -->
+    <section id="sobre">
+      <div class="section-head reveal">
+        <span class="section-index">01 — Quem somos</span>
+        <h2 class="section-title">
+          O que é <span class="accent">Atlas</span>
+        </h2>
+      </div>
+
+      <div class="about-grid">
+        <!-- Texto explicando o que a empresa faz -->
+        <div class="about-text reveal">
+          <p>
+            A <strong>Atlas</strong> é uma empresa especializada no desenvolvimento de softwares e soluções
+            tecnológicas, criada para atender empresas e usuários que buscam otimizar processos e aumentar a
+            produtividade.
+          </p>
+
+          <p>
+            Por meio de sistemas personalizados, resolvemos desafios relacionados à falta de organização, baixa
+            eficiência e ausência de soluções digitais adequadas — oferecendo ferramentas que facilitam o dia a dia e
+            impulsionam resultados.
+          </p>
+
+          <!-- Números/estatísticas da empresa -->
+          <div class="about-stats">
+            <div>
+              <div class="stat-num">5</div>
+              <div class="stat-label">Especialistas</div>
+            </div>
+
+            <div>
+              <div class="stat-num">1</div>
+              <div class="stat-label">Sistemas ativos</div>
+            </div>
+
+            <div>
+              <div class="stat-num">2026</div>
+              <div class="stat-label">Fundação</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Imagem/símbolo da Atlas ao lado do texto -->
+        <div class="metal-frame reveal">
+          <img src="simbolo_atlas.png" alt="Símbolo da Atlas" class="metal-img">
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================
+         SEÇÃO 3: POR QUE O NOME "ATLAS"
+         =================================================== -->
+    <section id="porque">
+      <div class="section-head reveal">
+        <span class="section-index">02 — Origem do nome</span>
+        <h2 class="section-title">
+          Por que <span class="accent">Atlas?</span>
+        </h2>
+      </div>
+
+      <div class="why-content reveal">
+        <p>
+          O nome <strong>Atlas</strong> foi inspirado na mitologia grega, onde representa o titã responsável por
+          sustentar o mundo. Esse conceito reflete os valores da nossa equipe: <strong>força, responsabilidade e
+            suporte</strong> — o compromisso em sustentar soluções tecnológicas sólidas e confiáveis.
+        </p>
+      </div>
+
+      <!-- Os 3 valores da empresa, em cartões -->
+      <div class="why-pillars reveal">
+        <article class="pillar">
+          <h3 class="pillar-title">Força</h3>
+          <p class="pillar-text">
+            Sistemas construídos para suportar a carga real de operações críticas, sem ceder sob pressão.
+          </p>
+        </article>
+
+        <article class="pillar">
+          <h3 class="pillar-title">Responsabilidade</h3>
+          <p class="pillar-text">
+            Cada entrega carrega o compromisso de funcionar — não apenas de impressionar.
+          </p>
+        </article>
+
+        <article class="pillar">
+          <h3 class="pillar-title">Suporte</h3>
+          <p class="pillar-text">
+            Tecnologia que sustenta o que já existe, em vez de exigir que tudo mude ao redor dela.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================================================
+         SEÇÃO 4: PROJETOS FEITOS PELA ATLAS
+         =================================================== -->
+    <section id="projetos">
+      <div class="section-head reveal">
+        <span class="section-index">03 — Trabalho</span>
+        <h2 class="section-title">
+          Projetos da <span class="accent">Atlas</span>
+        </h2>
+      </div>
+
+      <!-- Cada "project-row" é um projeto: número, nome, problema e diferencial -->
+      <div class="project-list reveal">
+        <article class="project-row">
+          <div class="project-num">01</div>
+
+          <h3 class="project-name">Monitoramento de Obras Públicas</h3>
+
+          <div class="project-desc">
+            <span class="label">Problema</span>
+            <p>
+              Falta de transparência e comunicação em obras públicas, gerando atrasos e desinformação.
+            </p>
+
+            <span class="label">Diferencial</span>
+            <p>
+              Integração entre governo e população em tempo real, com envio de fotos e atualizações pelos próprios
+              cidadãos.
+            </p>
+          </div>
+        </article>
+
+        <article class="project-row">
+          <div class="project-num">02</div>
+
+          <h3 class="project-name">Tribos — Grupos de Hobbies</h3>
+
+          <div class="project-desc">
+            <span class="label">Problema</span>
+            <p>
+              Dificuldade de encontrar pessoas com interesses em comum, especialmente em locais desconhecidos.
+            </p>
+
+            <span class="label">Diferencial</span>
+            <p>
+              Geolocalização para grupos próximos, agenda de encontros e chat integrado.
+            </p>
+          </div>
+        </article>
+
+        <article class="project-row">
+          <div class="project-num">03</div>
+
+          <h3 class="project-name">Controle de Ferramentas Industriais</h3>
+
+          <div class="project-desc">
+            <span class="label">Problema</span>
+            <p>
+              Perdas, extravios e desorganização de ferramentas dentro da indústria.
+            </p>
+
+            <span class="label">Diferencial</span>
+            <p>
+              Rastreamento automático via RFID e IoT, com precisão em tempo real.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================================================
+         SEÇÃO 5: EQUIPE (cartões com iniciais e cargo de cada pessoa)
+         =================================================== -->
+    <section id="equipe">
+      <div class="section-head reveal">
+        <span class="section-index">04 — Time</span>
+        <h2 class="section-title">
+          A equipe <span class="accent">Atlas</span>
+        </h2>
+      </div>
+
+      <div class="team-grid reveal">
+        <article class="member">
+          <div class="member-photo">
+            <img src="leonardo.jpg" alt="Leonardo Rodrigues">
+          </div>
+          <h3 class="member-name">Leonardo Rodrigues</h3>
+          <p class="member-role">PO · Full Stack</p>
+        </article>
+
+        <article class="member">
+          <div class="member-photo">
+            <img src="luiz.jpeg" alt="Luiz Francisco">
+          </div>
+          <h3 class="member-name">Luiz Francisco</h3>
+          <p class="member-role">SM · Front-End</p>
+        </article>
+
+        <article class="member">
+          <div class="member-photo">
+            <img src="lara.png" alt="Lara Domingos">
+          </div>
+          <h3 class="member-name">Lara Domingos</h3>
+          <p class="member-role">Back-End</p>
+        </article>
+
+        <article class="member">
+          <div class="member-photo">
+            <img src="vinicius.png" alt="Vinícius Sueli">
+          </div>
+          <h3 class="member-name">Vinícius Sueli</h3>
+          <p class="member-role">Banco de Dados</p>
+        </article>
+
+        <article class="member">
+          <div class="member-photo">
+            <img src="hugo.png" alt="Hugo César">
+          </div>
+          <h3 class="member-name">Hugo César</h3>
+          <p class="member-role">Documentação</p>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- ===================================================
+         SEÇÃO 6: CONTATO (texto + formulário)
+         =================================================== -->
+    <section id="contato">
+      <div class="contact-wrap">
+        <div class="reveal">
+          <h2 class="contact-title">
+            Vamos sustentar<br>
+            algo <span class="accent">juntos.</span>
+          </h2>
+
+          <p class="contact-lead">
+            Conte um pouco sobre o desafio que sua empresa enfrenta. Respondemos pessoalmente, sem formulários
+            automáticos do outro lado.
+          </p>
+
+          <!-- Links diretos de contato: e-mail, telefone e site -->
+          <div class="contact-info">
+            <a href="mailto:suporte@theatlasdev.com">suporte@theatlasdev.com</a>
+            <a href="https://www.theatlasdev.com.br" target="_blank" rel="noopener noreferrer">
+              www.theatlasdev.com.br
+            </a>
+          </div>
+        </div>
+
+        <!-- Formulário de contato: nome, e-mail e mensagem -->
+        <form class="reveal" id="contact-form" action="enviar.php" method="POST">
+          <div class="form-field">
+            <label for="name">Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+          </div>
+
+          <div class="form-field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+          </div>
+
+          <div class="form-field">
+
+            <label for="msg">Mensagem</label>
+            <textarea id="msg" name="msg" rows="3" placeholder="Conte sobre seu projeto..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn submit-btn">
+            Enviar mensagem
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé no final da página -->
+  <footer>
+    <div class="footer-logo">Atlas Ltda</div>
+    <div>Soluções Tecnológicas · 2026</div>
+  </footer>
+
+  <!-- Arquivo com as animações e comportamentos interativos -->
+  <script src="script.js"></script>
+</body>
+
+</html>
